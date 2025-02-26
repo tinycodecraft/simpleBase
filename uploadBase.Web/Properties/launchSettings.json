@@ -10,6 +10,7 @@
   },
   "profiles": {
     "http": {
+      //it's Kestrel build
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
