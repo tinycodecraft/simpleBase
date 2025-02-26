@@ -21,6 +21,7 @@
   <ItemGroup>
     <Folder Include="ErrorOr\" />
     <Folder Include="ExcelPart\" />
+    <Folder Include="Models\" />
   </ItemGroup>
 
 </Project>

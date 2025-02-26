@@ -1,8 +1,28 @@
 ﻿namespace uploadBase.Shared
 {
 
+    public class Interfaces
+    {
+        public interface ILanguageService
+        {
+            public string LanguageId { get; }
+        }
+        public interface IBelongtoTable
+        {
+            string tablename { get; set; }
+        }
+
+    }
+
     public class Constants
     {
+        public enum PathType
+        {
+            Share,
+            Upload,
+            Stream,
+            Template
+        }
 
         public enum FieldType
         {
