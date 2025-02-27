@@ -47,6 +47,7 @@ namespace uploadBase.Shared
             Template
         }
 
+        //describe the field using 
         public enum FieldType
         {
 

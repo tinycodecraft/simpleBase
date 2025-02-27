@@ -21,18 +21,22 @@ public class CorsPolicySetting
 
 public class PathSetting
 {
+    //the share path root for keeping files
     public string Share { get; set; }
+    //the upload path for keeping the uploaded files
     public string Upload { get; set; }
+    //the api path for downloading
     public string Stream { get; set; }
-
+    //the template path for keeping the template files
     public string Template { get; set; }
-
+    //the root of web path
     public string Base { get; set; }
 }
 
 
 public class TemplateSetting
 {
+    //the template name for the template file
     public string User { get; set; }
 
 }
