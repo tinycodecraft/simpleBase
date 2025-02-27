@@ -1,8 +1,31 @@
-﻿namespace uploadBase.Shared
+﻿using MediatR;
+using uploadBase.Shared.ErrorOr;
+
+namespace uploadBase.Shared
 {
 
     public class Interfaces
     {
+        //this interface is for mediatr , which require connectionid provided during subscription of signalr event
+
+        //the detail can be found in vtecore, WeatherForcastHandler
+        //1. handler is inited by mediatr for handling the request
+        //2. handler will be injected with gateway (channel) to deliver the message
+        //3. gateway has list of observer, the signalr client send signal to hub and create subscriber with (id,method and client proxy) and using the gateway for subscription
+
+        //not using here for HyD project
+        //the type argument in the interface is data type to be requested
+        //a concrete interface (non-generic) is also required for mediatr to work
+        public interface IRqBase<T> : IRequest<ErrorOr<T>>
+        {
+            string ConnectionId { get; set; }
+        }
+        
+        public interface IResultGateway<T> : IObservable<KeyValuePair<string, T>>
+        {
+            Task OnDeliverResultAsync(KeyValuePair<string, T> result);
+        }
+
         public interface ILanguageService
         {
             public string LanguageId { get; }
