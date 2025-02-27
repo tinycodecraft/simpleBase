@@ -148,12 +148,19 @@ else
     //add notice for browser to use strict transport security
     app.UseHsts();
 }
+/*Use Cors
+ */
+/*Use SerilogRequestLogging
+ */
 
 app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseSession();
 
 //using attribute for routing
 app.MapControllers();
