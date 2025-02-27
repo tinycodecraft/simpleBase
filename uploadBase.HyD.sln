@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uploadBase.Web", "uploadBas
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uploadBase.Shared", "uploadBase.Shared\uploadBase.Shared.csproj", "{E7650312-20F9-4BBB-B432-1DBDC66C3EF9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenXmlPowerTools", "OpenXmlPowerTools\OpenXmlPowerTools.csproj", "{25B6E2C7-2D51-735F-3551-2942DE7C7A37}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{E7650312-20F9-4BBB-B432-1DBDC66C3EF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E7650312-20F9-4BBB-B432-1DBDC66C3EF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E7650312-20F9-4BBB-B432-1DBDC66C3EF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25B6E2C7-2D51-735F-3551-2942DE7C7A37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25B6E2C7-2D51-735F-3551-2942DE7C7A37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25B6E2C7-2D51-735F-3551-2942DE7C7A37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25B6E2C7-2D51-735F-3551-2942DE7C7A37}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

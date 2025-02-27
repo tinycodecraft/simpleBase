@@ -22,6 +22,11 @@
     <Folder Include="ErrorOr\" />
     <Folder Include="ExcelPart\" />
     <Folder Include="Models\" />
+    <Folder Include="Handles\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OpenXmlPowerTools\OpenXmlPowerTools.csproj" />
   </ItemGroup>
 
 </Project>
