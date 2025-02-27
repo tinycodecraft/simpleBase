@@ -5,9 +5,15 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
-
+	<ItemGroup>
+		<EmbeddedResource Update="Resources\SharedResource.resx">
+			<Generator>PublicResXFileCodeGenerator</Generator>
+			<LastGenOutput>SharedResource.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="14.0.0" />
+    <PackageReference Include="MediatR" Version="12.4.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.13" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="8.0.13" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Analyzers" Version="8.0.13" />
@@ -21,6 +27,16 @@
     <PackageReference Include="Serilog.Expressions" Version="4.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
     <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="8.0.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\uploadBase.Shared\uploadBase.Shared.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Resources\SharedResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SharedResource.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>
