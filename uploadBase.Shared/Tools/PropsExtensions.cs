@@ -12,6 +12,7 @@ using System.Web;
 using uploadBase.Shared.Models;
 using System.Text.Json;
 using System.Text.RegularExpressions;
+using Microsoft.Extensions.Configuration;
 
 namespace uploadBase.Shared.Tools
 {
@@ -21,7 +22,19 @@ namespace uploadBase.Shared.Tools
 
     public static class SubStringExtensions
     {
+        public static IConfigurationSection RevertPathSlash<T>(this IConfigurationSection config) where T:class
+        {
+            
+            foreach(var n in typeof(T).GetProperties().Select(e=> e.Name))
+            {
 
+                if(config[n]!.Contains(":"))
+                {
+                    config[n] = config[n]!.Replace("/", "\\");
+                }
+            }
+            return config;
+        }
         public static string SplitCamelCase(this string str)
         {
             return Regex.Replace(Regex.Replace(str, @"(\P{Ll})(\P{Ll}\p{Ll})", "$1 $2"), @"(\p{Ll})(\P{Ll})", "$1 $2");
@@ -174,27 +187,7 @@ namespace uploadBase.Shared.Tools
                     return filerandom + ".txt";
             }
         }
-        public static string GetPath(PathSetting setting, PathType pathtype, string type, string? filename = null)
-        {
-            if (pathtype == PathType.Stream)
-            {
-                var revisedfilename = HttpUtility.UrlEncode(filename);
-                return "/" + string.Join("/", string.Join("/", setting.Stream, type, revisedfilename).ItSplit("/").NoEmpty());
-            }
-            else
-            {
-                var drivepath = Path.GetPathRoot(setting.Base).TrimEndAt("\\");
-                
-                var targetpath = Coalesce(pathtype, new[] { setting.Upload, setting.Template, setting.Share }.ToList(), PathType.Upload, PathType.Template, PathType.Share);
 
-                var basepath = string.Join("\\", string.Join("/", targetpath.StartsWith('/') ? drivepath : setting.Base, targetpath, type, filename).ItSplit("/").NoEmpty());
-
-                return basepath;
-
-            }
-
-
-        }
 
         public static DateTime Trim(this DateTime date, long ticks)
         {
