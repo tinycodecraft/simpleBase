@@ -12,6 +12,7 @@ using static uploadBase.Shared.Interfaces;
 using Serilog;
 using Serilog.Templates;
 using static uploadBase.Shared.Constants;
+using uploadBase.Web.Resources;
 
 /*Bootstrap logger
  */
@@ -34,13 +35,13 @@ var builder = WebApplication.CreateBuilder(new WebApplicationOptions
  */
 var pathsetting = builder.Configuration.GetSection(Setting.PathSetting);
 pathsetting[nameof(MD.PathSetting.BasePath)] = Directory.GetCurrentDirectory();
-pathsetting= pathsetting.RevertPathSlash<MD.PathSetting>();
+pathsetting = pathsetting.RevertPathSlash<MD.PathSetting>();
 var baseurl = builder.WebHost.GetSetting(WebHostDefaults.ServerUrlsKey);
-if(!string.IsNullOrEmpty(baseurl))
+if (!string.IsNullOrEmpty(baseurl))
 {
     var uri = new Uri(baseurl);
-    
-    pathsetting[nameof(MD.PathSetting.BaseUrl)] =  uri.AbsolutePath;
+
+    pathsetting[nameof(MD.PathSetting.BaseUrl)] = uri.AbsolutePath;
 }
 
 builder.Services.Configure<MD.PathSetting>(pathsetting);
@@ -106,7 +107,11 @@ builder.Services.AddCustomLocalization("en-US", "zh-HK");
 builder.Services.AddControllersWithViews()
     .AddJsonOptions(opt => opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles)
     .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
-    .AddDataAnnotationsLocalization();
+    .AddDataAnnotationsLocalization(options => {
+        //using same resource for data annotation for multiple classes
+        options.DataAnnotationLocalizerProvider = (type, factory) =>
+        factory.Create(typeof(SharedResource));
+    });
 
 
 
@@ -167,7 +172,7 @@ var app = builder.Build();
 app.UseRequestLocalization(new RequestLocalizationOptions
 {
     ApplyCurrentCultureToResponseHeaders = true,
-    CultureInfoUseUserOverride=false,
+    CultureInfoUseUserOverride = false,
 });
 
 // Configure the HTTP request pipeline.
@@ -210,6 +215,10 @@ app.UseAuthorization();
 app.UseSession();
 
 //using attribute for routing
-app.MapControllers();
+//app.MapControllers();
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
 
 app.Run();
