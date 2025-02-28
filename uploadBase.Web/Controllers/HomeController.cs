@@ -7,6 +7,8 @@ using uploadBase.Web.Resources;
 
 namespace uploadBase.Web.Controllers
 {
+    [Route("[controller]")]
+    [Route("")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> logger;
@@ -19,6 +21,8 @@ namespace uploadBase.Web.Controllers
             localizer = mlocalizer;
             localoptions = mlocaloptions.Value;
         }
+        [Route("[action]")]
+        [Route("")]
         public IActionResult Index(IndexModel model)
         {
             model.ListOfLanguages = localoptions.SupportedUICultures!.Select(c => new SelectListItem

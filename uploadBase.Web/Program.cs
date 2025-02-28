@@ -215,10 +215,10 @@ app.UseAuthorization();
 app.UseSession();
 
 //using attribute for routing
-//app.MapControllers();
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+app.MapControllers();
+//app.MapControllerRoute(
+//    name: "default",
+//    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 
 app.Run();

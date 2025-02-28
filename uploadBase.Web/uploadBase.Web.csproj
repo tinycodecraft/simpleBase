@@ -39,8 +39,5 @@
       <DependentUpon>SharedResource.resx</DependentUpon>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Shared\" />
-  </ItemGroup>
 
 </Project>
