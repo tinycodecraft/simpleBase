@@ -9,9 +9,16 @@ using uploadBase.Shared.Tools;
 using uploadBase.Shared;
 using uploadBase.Web.Helpers;
 using static uploadBase.Shared.Interfaces;
+using Serilog;
+using Serilog.Templates;
+using static uploadBase.Shared.Constants;
 
 /*Bootstrap logger
  */
+Log.Logger = new LoggerConfiguration().MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Information)
+    .Enrich.FromLogContext()
+    .WriteTo.Console()
+    .CreateBootstrapLogger();
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
@@ -21,14 +28,21 @@ var builder = WebApplication.CreateBuilder(new WebApplicationOptions
     //WebRootPath = "wwwroot",
 });
 
+
+
 /*configure appsetting options
  */
+var pathsetting = builder.Configuration.GetSection(Setting.PathSetting);
+pathsetting[nameof(MD.PathSetting.BasePath)] = Directory.GetCurrentDirectory();
+builder.Services.Configure<MD.PathSetting>(pathsetting);
+var CorsPolicy = builder.Configuration.GetSection(Setting.CorsPolicySetting).Get<MD.CorsPolicySetting>();
 
 builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.Configure<FormOptions>(opt =>
 {
-    //opt.BufferBodyLengthLimit = 512 * 1024 * 1024;
+
+    opt.BufferBodyLengthLimit = 512 * 1024 * 1024;
 
     //it needs
     opt.MultipartBodyLengthLimit = 512 * 1024 * 1024;
@@ -41,9 +55,17 @@ builder.Services.Configure<IISServerOptions>(opt =>
 
 });
 
-
 /*UseSerilog configuration
  */
+builder.Host.UseSerilog((context, services, loggerConfiguration) => loggerConfiguration
+.ReadFrom.Configuration(context.Configuration)
+.ReadFrom.Services(services)
+//.WriteTo.Console(new ExpressionTemplate(
+//    // Include trace and span ids when present.
+//    "[{@t:HH:mm:ss} {@l:u3}{#if @tr is not null} ({substring(@tr,0,4)}:{substring(@sp,0,4)}){#end}] {@m}\n{@x}"))
+//
+);
+
 
 /*Setup DB Context
  */
@@ -57,6 +79,7 @@ builder.Services.AddTransient<ProblemDetailsFactory, CustomProblemDetailsFactory
 
 /*setup cors policy
  */
+builder.Services.AddCorsConfig(CorsPolicy!);
 
 
 /*setup signalr
@@ -132,7 +155,11 @@ builder.Services.AddSession(options =>
 
 var app = builder.Build();
 
-app.UseRequestLocalization();
+app.UseRequestLocalization(new RequestLocalizationOptions
+{
+    ApplyCurrentCultureToResponseHeaders = true,
+    CultureInfoUseUserOverride=false,
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -150,8 +177,19 @@ else
 }
 /*Use Cors
  */
+
+app.UseCors(CorsPolicy!.Name);
+
 /*Use SerilogRequestLogging
  */
+app.UseSerilogRequestLogging(option =>
+{
+    option.EnrichDiagnosticContext = (diagnostic, http) =>
+    {
+        diagnostic.Set("LocalTime", DateTime.Now.ToString("yyyyMMdd+HHmmss"));
+
+    };
+});
 
 app.UseStaticFiles();
 

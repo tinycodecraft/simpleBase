@@ -30,7 +30,8 @@ public class PathSetting
     //the template path for keeping the template files
     public string Template { get; set; }
     //the root of web path
-    public string Base { get; set; }
+    public string BasePath { get; set; }
+    public string BaseUrl { get; set; }
 }
 
 

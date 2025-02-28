@@ -39,6 +39,24 @@ namespace uploadBase.Web.Helpers
     public static class ServiceCollectionExtensions
     {
 
+        public static IServiceCollection AddCorsConfig(this IServiceCollection services, MD.CorsPolicySetting policy, string name="AllowAll")
+        {
+
+
+            services.AddCors(c => c.AddPolicy(name,
+                options => options.AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()));
+
+            if (policy != null )
+            {
+                services.AddCors(c => c.AddPolicy(policy.Name, options => options.WithOrigins(policy.AllowOrigins).WithHeaders(policy.AllowHeaders).WithMethods(policy.AllowMethods)));
+            }
+
+            return services;
+        }
+
+
         public static IServiceCollection AddCustomLocalization(this IServiceCollection services,params string[] langs)
         {
             services.AddLocalization(options => options.ResourcesPath = "Resources");
