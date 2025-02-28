@@ -35,6 +35,14 @@ var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 var pathsetting = builder.Configuration.GetSection(Setting.PathSetting);
 pathsetting[nameof(MD.PathSetting.BasePath)] = Directory.GetCurrentDirectory();
 pathsetting= pathsetting.RevertPathSlash<MD.PathSetting>();
+var baseurl = builder.WebHost.GetSetting(WebHostDefaults.ServerUrlsKey);
+if(!string.IsNullOrEmpty(baseurl))
+{
+    var uri = new Uri(baseurl);
+    
+    pathsetting[nameof(MD.PathSetting.BaseUrl)] =  uri.AbsolutePath;
+}
+
 builder.Services.Configure<MD.PathSetting>(pathsetting);
 var CorsPolicy = builder.Configuration.GetSection(Setting.CorsPolicySetting).Get<MD.CorsPolicySetting>();
 
