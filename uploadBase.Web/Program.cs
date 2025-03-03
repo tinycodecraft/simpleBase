@@ -13,6 +13,8 @@ using Serilog;
 using Serilog.Templates;
 using static uploadBase.Shared.Constants;
 using uploadBase.Web.Resources;
+using MudBlazor.Services;
+
 
 /*Bootstrap logger
  */
@@ -113,6 +115,8 @@ builder.Services.AddControllersWithViews()
         factory.Create(typeof(SharedResource));
     });
 
+builder.Services.AddServerSideBlazor();
+builder.Services.AddMudServices();
 
 
 
@@ -167,6 +171,7 @@ builder.Services.AddSession(options =>
 //});
 
 
+
 var app = builder.Build();
 
 app.UseRequestLocalization(new RequestLocalizationOptions
@@ -213,6 +218,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseSession();
+
+app.MapBlazorHub();
 
 //using attribute for routing
 app.MapControllers();
