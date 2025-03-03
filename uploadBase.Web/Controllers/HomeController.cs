@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
+using System.Diagnostics;
 using uploadBase.Web.Data;
 using uploadBase.Web.Resources;
 
@@ -33,6 +34,11 @@ namespace uploadBase.Web.Controllers
             model.SelectedLanguage = model.SelectedLanguage ?? localoptions.DefaultRequestCulture.Culture.Name;
 
             return View(model);
+        }
+
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }
