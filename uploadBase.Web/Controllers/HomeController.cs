@@ -35,7 +35,7 @@ namespace uploadBase.Web.Controllers
 
             return View(model);
         }
-
+        [Route("[action]")]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
